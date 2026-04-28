@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Analyse Statistique</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    font-family: Arial, sans-serif;
+}
+
+.container{
+    margin-top:40px;
+}
+
+.card{
+    border-radius:15px;
+    border:none;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.02);
+}
+
+.stat-card{
+    background:white;
+    color:#333;
+    text-align:center;
+    padding:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+.stat-value{
+    font-size:28px;
+    font-weight:bold;
+    color:#4a6cf7;
+}
+
+.table{
+    background:white;
+    color:black;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.header-title{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.badge-box{
+    background:#ffffff20;
+    padding:10px;
+    border-radius:10px;
+    display:inline-block;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header-title">
+    <h1>📊 Analyse Statistique Complète</h1>
+    <p class="badge-box">Projet INF232 - Ndahe Emmanuel</p>
+</div>
+
+{% if result %}
+
+<!-- CARTES STATISTIQUES -->
+<div class="row g-3">
+
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <h6>Moyenne</h6>
+            <div class="stat-value">{{ result.moyenne }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <h6>Écart-Type</h6>
+            <div class="stat-value">{{ result.ecart_type }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <h6>Variance</h6>
+            <div class="stat-value">{{ result.variance }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <h6>Z-Score</h6>
+            <div class="stat-value">{{ result.z_score }}</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- QUANTILES -->
+<div class="card mt-4 p-3 shadow">
+
+<h5 class="text-dark">📌 Quantiles & Interquartile</h5>
+
+<table class="table table-bordered text-center mt-2">
+    <tr class="table-dark">
+        <th>Statistique</th>
+        <th>Valeur</th>
+    </tr>
+
+    <tr>
+        <td>Q1 (25%)</td>
+        <td>{{ result.q1 }}</td>
+    </tr>
+
+    <tr>
+        <td>Q2 (Médiane)</td>
+        <td>{{ result.q2 }}</td>
+    </tr>
+
+    <tr>
+        <td>Q3 (75%)</td>
+        <td>{{ result.q3 }}</td>
+    </tr>
+
+    <tr>
+        <td>Intervalle Interquartile (IQR)</td>
+        <td>{{ result.iqr }}</td>
+    </tr>
+
+</table>
+
+</div>
+
+<!-- Z-SCORE DETAILS -->
+<div class="card mt-4 p-3 shadow">
+
+<h5 class="text-dark">📈 Analyse Z-Score</h5>
+
+<table class="table table-bordered text-center mt-2">
+    <tr class="table-dark">
+        <th>Observation</th>
+        <th>Z-Score</th>
+        <th>Interprétation</th>
+    </tr>
+
+    {% for item in result.z_scores %}
+    <tr>
+        <td>{{ item.valeur }}</td>
+        <td>{{ item.z }}</td>
+        <td>{{ item.interpretation }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-warning text-center mt-5">
+    ⚠️ Pas assez de données pour effectuer l'analyse statistique
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Collecte PRO+</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body{
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family: Arial;
+}
+
+/* CARD */
+.card{
+    width:100%;
+    max-width:700px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+    border:none;
+    overflow:hidden;
+}
+
+/* HEADER */
+.card-header{
+    background: linear-gradient(90deg,#4facfe,#00f2fe);
+    color:white;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    padding:15px;
+}
+
+/* INPUTS */
+.form-control{
+    border-radius:12px;
+    padding:10px;
+    transition:0.3s;
+}
+
+.form-control:focus{
+    transform:scale(1.02);
+    box-shadow:0 0 10px rgba(79,172,254,0.5);
+}
+
+/* BUTTON */
+.btn-success{
+    width:100%;
+    border-radius:12px;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.btn-success:hover{
+    transform:scale(1.03);
+}
+
+/* SECTION */
+.section-title{
+    font-weight:bold;
+    margin-top:15px;
+    margin-bottom:10px;
+    color:#333;
+}
+
+/* PROGRESS BAR */
+.progress{
+    height:10px;
+    border-radius:20px;
+    margin-bottom:15px;
+}
+
+/* SCORE */
+#scoreBox{
+    background:#f8f9fa;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="card-header">
+        📊 Formulaire Collecte PRO+
+    </div>
+
+    <div class="card-body p-4">
+
+        <!-- BARRE DE PROGRESSION -->
+        <div class="progress">
+            <div id="progressBar" class="progress-bar bg-success" style="width:0%"></div>
+        </div>
+
+        <!-- SCORE -->
+        <div id="scoreBox">🎯 Score étudiant : 0 / 100</div>
+
+        <form action="/submit" method="post" id="form">
+
+            <div class="section-title"><i class="bi bi-person"></i> Informations personnelles</div>
+
+            <input name="nom" class="form-control mb-2" placeholder="Nom complet" required>
+            <input name="age" type="number" class="form-control mb-2" placeholder="Âge" required>
+
+            <div class="section-title"><i class="bi bi-book"></i> Études</div>
+
+            <input name="heures" class="form-control mb-2" placeholder="Heures d'étude" required>
+            <input name="moyenne" class="form-control mb-2" placeholder="Moyenne" required>
+
+            <div class="section-title"><i class="bi bi-activity"></i> Mode de vie</div>
+
+            <input name="internet" class="form-control mb-2" placeholder="Internet (0-10)" required>
+            <input name="social" class="form-control mb-2" placeholder="Social (0-10)" required>
+            <input name="environnement" class="form-control mb-3" placeholder="Environnement (0-10)" required>
+
+            <button class="btn btn-success">
+                <i class="bi bi-send"></i> Envoyer vers Dashboard
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+// -----------------------------
+// PROGRESSION DU FORMULAIRE
+// -----------------------------
+const inputs = document.querySelectorAll("input");
+const progressBar = document.getElementById("progressBar");
+const scoreBox = document.getElementById("scoreBox");
+
+inputs.forEach(input=>{
+    input.addEventListener("input", updateForm);
+});
+
+function updateForm(){
+
+    let filled = 0;
+
+    inputs.forEach(input=>{
+        if(input.value.trim() !== ""){
+            filled++;
+        }
+    });
+
+    let progress = Math.round((filled / inputs.length) * 100);
+    progressBar.style.width = progress + "%";
+
+    calculateScore();
+}
+
+// -----------------------------
+// SCORE AUTOMATIQUE ÉTUDIANT
+// -----------------------------
+function calculateScore(){
+
+    let heures = parseFloat(document.querySelector("[name='heures']").value) || 0;
+    let moyenne = parseFloat(document.querySelector("[name='moyenne']").value) || 0;
+    let internet = parseFloat(document.querySelector("[name='internet']").value) || 0;
+    let social = parseFloat(document.querySelector("[name='social']").value) || 0;
+    let env = parseFloat(document.querySelector("[name='environnement']").value) || 0;
+
+    // formule simple pédagogique
+    let score = (moyenne * 5) + (heures * 2) + env + social - internet;
+
+    if(score < 0) score = 0;
+    if(score > 100) score = 100;
+
+    scoreBox.innerHTML = "🎯 Score étudiant : " + Math.round(score) + " / 100";
+}
+</script>
+
+</body>
+</html>

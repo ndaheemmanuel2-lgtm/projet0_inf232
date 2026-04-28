@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard PRO - EduBehavior</title>
+
+<!-- Bootstrap + Icons + Chart.js -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+    background:#0f172a;
+    color:#e2e8f0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Sidebar */
+.sidebar{
+    width:230px;
+    height:100vh;
+    background:#020617;
+    position:fixed;
+    padding:20px;
+}
+
+.sidebar h3{
+    color:#38bdf8;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:#94a3b8;
+    padding:10px;
+    margin-bottom:10px;
+    text-decoration:none;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    background:#1e293b;
+    color:#38bdf8;
+}
+
+/* Main */
+.main{
+    margin-left:250px;
+    padding:20px;
+}
+
+/* Cards */
+.card{
+    background:#1e293b;
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+    transition:0.3s;
+    animation:fadeIn 0.8s ease;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h5{
+    color:#94a3b8;
+}
+
+.card h2{
+    color:#38bdf8;
+}
+
+/* Charts */
+canvas{
+    background:#020617;
+    border-radius:10px;
+    padding:10px;
+}
+
+/* Table */
+table{
+    background:#1e293b;
+    color:white;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+thead{
+    background:#020617;
+}
+
+/* Animation */
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h3>EduBehavior</h3>
+
+    <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="#"><i class="bi bi-bar-chart"></i> Analyse</a>
+    <a href="#"><i class="bi bi-people"></i> Étudiants</a>
+    <a href="#"><i class="bi bi-gear"></i> Paramètres</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2 class="mb-4">Dashboard Analytique</h2>
+
+    <!-- CARDS -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <h5>Étudiants</h5>
+                <h2>120</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center">
+                <h5>Moyenne</h5>
+                <h2>13.5</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center">
+                <h5>Présence</h5>
+                <h2>85%</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center">
+                <h5>Réussite</h5>
+                <h2>78%</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRAPHIQUES -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <h5>Performance académique</h5>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <h5>Répartition des étudiants</h5>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <h5>Liste des étudiants</h5>
+        <table class="table table-dark table-hover mt-3">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Note</th>
+                    <th>Présence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Paul</td>
+                    <td>15</td>
+                    <td>90%</td>
+                </tr>
+                <tr>
+                    <td>Marie</td>
+                    <td>12</td>
+                    <td>80%</td>
+                </tr>
+                <tr>
+                    <td>Jean</td>
+                    <td>17</td>
+                    <td>95%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- CHART JS -->
+<script>
+
+Chart.defaults.color = "#e2e8f0";
+Chart.defaults.borderColor = "#334155";
+
+// LINE CHART
+new Chart(document.getElementById("lineChart"), {
+    type: 'line',
+    data: {
+        labels: ["Jan", "Fev", "Mar", "Avr", "Mai"],
+        datasets: [{
+            label: "Performance",
+            data: [10, 12, 14, 13, 15],
+            borderWidth: 2,
+            tension: 0.4
+        }]
+    }
+});
+
+// PIE CHART
+new Chart(document.getElementById("pieChart"), {
+    type: 'doughnut',
+    data: {
+        labels: ["Admis", "Échec"],
+        datasets: [{
+            data: [78, 22],
+            borderWidth: 2
+        }]
+    }
+});
+
+</script>
+
+</body>
+</html>
