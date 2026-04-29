@@ -123,5 +123,13 @@ def analysis():
 
 # ------------------ LANCEMENT ------------------
 if __name__ == "__main__":
+<<<<<<< HEAD
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=False)
+=======
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 10000)),
+        debug=False
+    )
+>>>>>>> 23b7b9167f471f51ce8a4d97ebee6857ba2a330a
